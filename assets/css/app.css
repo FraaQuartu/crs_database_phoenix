@@ -4,5 +4,9 @@
 
 /* This file is for your main application CSS */
 .with-breaks {
-  white-space: pre-wrap
+  white-space: pre;
+}
+
+.overflow-scroll {
+  overflow-x: scroll;
 }

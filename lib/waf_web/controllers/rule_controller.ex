@@ -11,26 +11,21 @@ defmodule WafWeb.RuleController do
 
   def new(conn, _params) do
     changeset = Parser.change_rule(%Rule{})
-    render(conn, :new, changeset: changeset)
+    render(conn, :new, changeset: changeset, conf: "")
   end
 
   def create(conn, %{"rule" => rule_params}) do
-    # Prendo la string del .conf
-    # Faccio il parsing e inserisco
-    # results =
-      rule_params["conf"]
-      # Da fare: delega questa riga a Parser.create_rule()
-      |> Parser.RulesParser.parse_rules_from_string()
+    rule_params["conf"]
+    # Da fare: delega questa riga a Parser.create_rule()
+    |> Parser.RulesParser.parse_rules_from_string()
 
     conn
     |> put_flash(:info, "Rule created successfully.")
     |> redirect(to: ~p"/rules")
-
     # Da fare: gestione di errori
   end
 
   def show(conn, %{"id" => id}) do
-    # conf = Waf.Parser.ConfGenerator.generate(id)
     rule = Parser.get_rule!(id)
     rule_id = rule.rule_id
     conf = Parser.FileGenerator.generate_conf(id_min: rule_id, id_max: rule_id)
@@ -39,27 +34,30 @@ defmodule WafWeb.RuleController do
 
   def edit(conn, %{"id" => id}) do
     rule = Parser.get_rule!(id)
+    rule_id = rule.rule_id
     changeset = Parser.change_rule(rule)
-    render(conn, :edit, rule: rule, changeset: changeset)
+    conf = Waf.Parser.FileGenerator.generate_conf(id_min: rule_id, id_max: rule_id)
+    render(conn, :edit, rule: rule, changeset: changeset, conf: conf)
   end
 
   def update(conn, %{"id" => id, "rule" => rule_params}) do
     rule = Parser.get_rule!(id)
+    # Delete all
+    Parser.delete_rules(rule.rule_id)
 
-    case Parser.update_rule(rule, rule_params) do
-      {:ok, rule} ->
-        conn
-        |> put_flash(:info, "Rule updated successfully.")
-        |> redirect(to: ~p"/rules/#{rule}")
+    # Create
+    rule_params["conf"]
+    |> Parser.RulesParser.parse_rules_from_string()
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, rule: rule, changeset: changeset)
-    end
+    conn
+    |> put_flash(:info, "Rule updated successfully.")
+    |> redirect(to: ~p"/rules")
+
   end
 
   def delete(conn, %{"id" => id}) do
     rule = Parser.get_rule!(id)
-    {:ok, _rule} = Parser.delete_rule(rule)
+    {_n, nil} = Parser.delete_rules(rule.rule_id)
 
     conn
     |> put_flash(:info, "Rule deleted successfully.")

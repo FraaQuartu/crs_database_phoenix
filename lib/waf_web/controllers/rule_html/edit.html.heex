@@ -1,8 +1,8 @@
 <.header>
-  Edit Rule <%= @rule.id %>
+  Edit Rule <%= @rule.rule_id %>
   <:subtitle>Use this form to manage rule records in your database.</:subtitle>
 </.header>
 
-<.rule_form changeset={@changeset} action={~p"/rules/#{@rule}"} />
+<.rule_form changeset={@changeset} action={~p"/rules/#{@rule}"} conf={@conf} />
 
 <.back navigate={~p"/rules"}>Back to rules</.back>

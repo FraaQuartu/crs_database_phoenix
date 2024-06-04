@@ -3,6 +3,7 @@ defmodule WafWeb.RuleController do
 
   alias Waf.Parser
   alias Waf.Parser.Rule
+  import Ecto.Query
 
   def index(conn, _params) do
     rules = Parser.list_rules()
@@ -27,16 +28,15 @@ defmodule WafWeb.RuleController do
 
   def show(conn, %{"id" => id}) do
     rule = Parser.get_rule!(id)
-    rule_id = rule.rule_id
-    conf = Parser.FileGenerator.generate_conf(id_min: rule_id, id_max: rule_id)
+    # Qui faccio la query di tutte le regole
+    conf = Parser.FileGenerator.generate_conf([rule.rule_id])
     render(conn, :show, rule: rule, conf: conf)
   end
 
   def edit(conn, %{"id" => id}) do
     rule = Parser.get_rule!(id)
-    rule_id = rule.rule_id
     changeset = Parser.change_rule(rule)
-    conf = Waf.Parser.FileGenerator.generate_conf(id_min: rule_id, id_max: rule_id)
+    conf = Waf.Parser.FileGenerator.generate_conf([rule.rule_id])
     render(conn, :edit, rule: rule, changeset: changeset, conf: conf)
   end
 

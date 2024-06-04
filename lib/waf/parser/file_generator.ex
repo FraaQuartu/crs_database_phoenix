@@ -27,16 +27,15 @@ defmodule Waf.Parser.FileGenerator do
     end
 
 
-  def generate_conf_file(file_name \\ "./rules/generated_rules/output_rules.conf", filters \\ []) do
+  def generate_conf_file(ids, file_name \\ "./rules/generated_rules/output_rules.conf") do
     {:ok, file} = File.open(file_name, [:write])
-    IO.binwrite(file, generate_conf(filters))
+    IO.binwrite(file, generate_conf(ids))
     File.close(file)
   end
 
-  def generate_conf(filters \\ []) do
+  def generate_conf(ids) do
 
     ########## Queries ##########
-    ids = Waf.Parser.Query.search_rules_ids_by_filters(filters)
     rules = query_rules(ids)
 
     # Altre info a per cui mi servirà un accesso efficiente
@@ -65,10 +64,12 @@ defmodule Waf.Parser.FileGenerator do
     operations = query_operations(operations_ids)
     actions = query_actions(rules_pk_ids)
 
+    IO.inspect(rules, label: "Rules")
     ########## Output creation ##########
     # Rule type
     output_rules =
       Map.new(rules, &({&1.id, %{output_ruletype: &1.rule_type}}))
+
 
     # Variables
     output_rules =

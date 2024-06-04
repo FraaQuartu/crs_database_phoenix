@@ -294,6 +294,7 @@ defmodule Waf.Parser.RulesParser do
   end
 
   defp increment_lists(rule_params, {operations, rules, actions, variables}) do
+    IO.inspect(actions, label: "Actions")
     new_operation =
       rule_params.operation
 

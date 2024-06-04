@@ -23,6 +23,10 @@ defmodule Waf.Parser.Action do
     |> Ecto.Changeset.change(id: id)
   end
 
+  def insert_all([]) do
+    {:ok, []}
+  end
+
   def insert_all(actions_params) do
     insert_results =
       actions_params
@@ -60,6 +64,9 @@ defmodule Waf.Parser.Action do
     {:ok, inserted_actions}
   end
 
+  def get_id_map([]) do
+    {:ok, %{}}
+  end
   def get_id_map(inserted_actions) do
     output =
       Enum.reduce(inserted_actions, %{},

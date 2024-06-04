@@ -18,12 +18,12 @@ defmodule Waf.Parser do
 
   """
   def list_rules do
-    from(
-      r in Waf.Parser.Rule,
-      where: r.chain_level == ^1
-    )
-    |> Repo.all()
-    # Repo.all(Rule)
+    # from(
+    #   r in Waf.Parser.Rule,
+    #   where: r.chain_level == ^1
+    # )
+    # |> Repo.all()
+    Repo.all(Rule)
   end
 
   @doc """

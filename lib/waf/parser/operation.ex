@@ -9,7 +9,7 @@ defmodule Waf.Parser.Operation do
     field(:modifier, :string)
     field(:input_string, :string)
     field(:inserted_at, :utc_datetime_usec)
-    has_many(:rules, Waf.Rule, foreign_key: :operation_id, references: :id)
+    has_many(:rules, Waf.Parser.Rule, foreign_key: :operation_id, references: :id)
   end
 
   def changeset(operation, params \\ %{}) do

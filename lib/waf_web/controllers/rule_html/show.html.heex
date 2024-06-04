@@ -1,0 +1,17 @@
+<.header>
+  Rule <%= @rule.id %>
+  <:subtitle>This is a rule record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/rules/#{@rule}/edit"}>
+      <.button>Edit rule</.button>
+    </.link>
+  </:actions>
+</.header>
+
+
+<.list>
+  <:item title="Conf"><%= @conf %></:item>
+</.list>
+
+
+<.back navigate={~p"/rules"}>Back to rules</.back>

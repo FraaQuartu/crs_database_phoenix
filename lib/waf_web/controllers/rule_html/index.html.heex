@@ -1,0 +1,29 @@
+<.header>
+  Listing Rules
+  <:actions>
+    <.link href={~p"/rules/new"}>
+      <.button>New Rule</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="rules" rows={@rules} row_click={&JS.navigate(~p"/rules/#{&1}")}>
+  <:col :let={rule} label="Rule id"><%= rule.rule_id %></:col>
+  <:col :let={rule} label="Rule type"><%= rule.rule_type %></:col>
+  <:col :let={rule} label="Severity"><%= rule.severity %></:col>
+  <:col :let={rule} label="Paranoia level"><%= rule.paranoia_level %></:col>
+  <:col :let={rule} label="Disruptive action"><%= rule.disruptive_action %></:col>
+  <:col :let={rule} label="Phase"><%= rule.phase %></:col>
+  <:col :let={rule} label="Attack type"><%= rule.attack_type %></:col>
+  <:action :let={rule}>
+    <div class="sr-only">
+      <.link navigate={~p"/rules/#{rule}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/rules/#{rule}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={rule}>
+    <.link href={~p"/rules/#{rule}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

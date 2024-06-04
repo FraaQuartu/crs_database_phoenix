@@ -3,7 +3,6 @@ defmodule WafWeb.RuleController do
 
   alias Waf.Parser
   alias Waf.Parser.Rule
-  import Ecto.Query
 
   def index(conn, _params) do
     rules = Parser.list_rules()

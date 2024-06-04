@@ -14,6 +14,7 @@ defmodule Waf.Parser.FileGenerator do
           severity: r.severity,
           phase: r.phase,
           paranoia_level: r.paranoia_level,
+          attack_type: r.attack_type,
           chain_length: over(count(r.id), :chain_length),
           operation_id: r.operation_id,
           inserted_at: r.inserted_at,
@@ -142,6 +143,7 @@ defmodule Waf.Parser.FileGenerator do
             end
             <> if(rule.severity != "", do: "severity:#{rule.severity},\\\n    ", else: "")
             <> if(rule.severity != "", do: "tag:'paranoia-level/#{rule.paranoia_level}',\\\n    ", else: "")
+            <> if(rule.attack_type != "", do: "tag:'attack-#{rule.attack_type}',\\\n    ", else: "")
           # !!!!!
 
           output_rule_map = Map.put(output_rules[rule.id], :output_actions, output_actions)

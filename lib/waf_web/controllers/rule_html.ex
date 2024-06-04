@@ -8,6 +8,7 @@ defmodule WafWeb.RuleHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :conf, :string, required: true
 
   def rule_form(assigns)
 end

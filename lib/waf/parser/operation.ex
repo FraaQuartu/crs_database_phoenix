@@ -23,7 +23,6 @@ defmodule Waf.Parser.Operation do
     operation
     |> Ecto.Changeset.cast(params, [:operator, :input_string, :modifier], empty_values: [])
     |> Ecto.Changeset.validate_inclusion(:modifier, ["", "!"])
-    # |> Ecto.Changeset.unique_constraint([:operator, :first_part_input_string, :modifier], name: :operations_unique)
     |> Ecto.Changeset.change(inserted_at: now)
     |> Ecto.Changeset.change(id: id)
     |> Ecto.Changeset.unique_constraint([:id])

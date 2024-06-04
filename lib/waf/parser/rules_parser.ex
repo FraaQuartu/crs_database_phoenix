@@ -12,11 +12,6 @@ defmodule Waf.Parser.RulesParser do
     |> parse_rules()
   end
 
-  # Funzione che restituisce una lista di regole grezze
-  # ciascuna regola grezza è un dizionario con 4 campi (rule type, variables, operation, actions)
-  @doc """
-  Parse all files from 'file_path' and load them into the database
-  """
   def parse_rules(rules, file_path \\ "") do
 
     ########### File parsing ###########
@@ -41,7 +36,6 @@ defmodule Waf.Parser.RulesParser do
         end
         )
       |> elem(0)
-      #|> Enum.reverse()
       |> Stream.map(&Map.put(&1, :file_name, file_path))
 
     ########### Split into 4 different lists for operations, rules, actions and variables ###########
@@ -299,7 +293,7 @@ defmodule Waf.Parser.RulesParser do
     {output_rule, rule_id, next_chain_level}
   end
 
-  defp increment_lists(rule_params, {operations, rules, actions, variables} \\ {[], [], [], []}) do
+  defp increment_lists(rule_params, {operations, rules, actions, variables}) do
     new_operation =
       rule_params.operation
 

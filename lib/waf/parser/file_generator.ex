@@ -215,22 +215,11 @@ defmodule Waf.Parser.FileGenerator do
     # Infine restituisco la stringa
     Enum.reduce(output_rules, "",
       fn {_inserted_at, _rule_index, chain_level, chain_length, output_string}, output ->
-        # IO.binwrite(file,
           output
           <> output_string <> "\n"
           <> (if chain_level == chain_length, do: "\n", else: "")
-        # )
       end
     )
-
-    # Enum.each(output_rules,
-    #   fn {_inserted_at, _rule_index, chain_level, chain_length, output_string} ->
-    #     IO.binwrite(file,
-    #       output_string <> "\n"
-    #       <> (if chain_level == chain_length, do: "\n", else: "")
-    #     )
-    #   end
-    # )
 
   end
 

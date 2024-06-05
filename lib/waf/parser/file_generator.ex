@@ -65,7 +65,6 @@ defmodule Waf.Parser.FileGenerator do
     operations = query_operations(operations_ids)
     actions = query_actions(rules_pk_ids)
 
-    IO.inspect(rules, label: "Rules")
     ########## Output creation ##########
     # Rule type
     output_rules =

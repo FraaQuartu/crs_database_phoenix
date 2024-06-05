@@ -20,7 +20,7 @@ defmodule Waf.Parser.RuleAction do
     |> Ecto.Changeset.unique_constraint([:rule_id, :action_id], name: :rules_actions_pkey)
   end
 
-  def insert_all(_, _, %{}) do
+  def insert_all(_, _, actions_id_map) when actions_id_map == %{} do
     {:ok, []}
   end
   def insert_all(actions_params, rules_id_map, actions_id_map) do

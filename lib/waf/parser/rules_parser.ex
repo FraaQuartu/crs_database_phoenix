@@ -28,6 +28,7 @@ defmodule Waf.Parser.RulesParser do
       |> Stream.reject(&(String.starts_with?(&1, "SecMarker") || String.starts_with?(&1, "SecComponentSignature")))
       |> Enum.reverse()
       |> Stream.map(&split_rule/1)
+      |> Stream.reject(&(&1.rule_type == ""))
 
       |> Enum.reduce({[], nil, 1},
         fn rules_params, {output, rule_id, chain_level} ->
@@ -100,8 +101,11 @@ defmodule Waf.Parser.RulesParser do
     [last_rule | rules]
   end
 
+  defp split_rule("") do
+    %{rule_type: ""}
+  end
   # Split a rule into its primary fields, and return a map
-  def split_rule(rule) do
+  defp split_rule(rule) do
     # Estraggo il tipo di regola (SecRule o SecAction)
     [rule_type, rest] = String.split(rule, " ", parts: 2)
 

@@ -384,6 +384,7 @@ defmodule WafWeb.CoreComponents do
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
         {@rest}
+        multiple={@multiple}
       />
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>

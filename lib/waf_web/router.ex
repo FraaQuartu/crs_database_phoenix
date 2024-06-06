@@ -19,6 +19,9 @@ defmodule WafWeb.Router do
 
     get "/", PageController, :home
     resources "/rules", RuleController
+
+    get "/load_files", FileLoaderController, :show
+    post "/load_files", FileLoaderController, :load
   end
 
   # Other scopes may use custom stacks.

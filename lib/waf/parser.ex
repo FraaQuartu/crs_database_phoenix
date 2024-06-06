@@ -8,7 +8,7 @@ defmodule Waf.Parser do
 
   alias Waf.Parser.Rule
 
-  def list_rules do
+  def list_rules() do
     from(
       r in Waf.Parser.Rule,
       where: r.chain_level == ^1

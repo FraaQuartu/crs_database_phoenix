@@ -1,0 +1,13 @@
+<.header>
+  New Rules
+  <:subtitle>Use this form to manage rule records in your database.</:subtitle>
+</.header>
+
+
+<.form :let={f} for={@dic} action="/load_files" multipart>
+  <.input field={f[:files]} type="file" label="File" multiple={true} />
+
+  <.button>Load Rules</.button>
+</.form>
+
+<.back navigate={~p"/rules"}>Back to rules</.back>

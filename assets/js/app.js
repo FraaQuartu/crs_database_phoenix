@@ -42,3 +42,6 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+import DataTable from 'datatables.net-dt'
+
+let table = new DataTable('#rules_table')

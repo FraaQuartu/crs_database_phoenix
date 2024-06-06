@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css";
 
 /* This file is for your main application CSS */
 .with-breaks {
@@ -9,4 +10,8 @@
 
 .overflow-scroll {
   overflow-x: scroll;
+}
+
+select[name="rules_table_length"] {
+  width: 100px;
 }

@@ -10,7 +10,7 @@
   </:actions>
 </.header>
 
-<.table id="rules" rows={@rules} row_click={&JS.navigate(~p"/rules/#{&1}")}>
+<.table id="rules" table_id="rules_table" rows={@rules} row_click={&JS.navigate(~p"/rules/#{&1}")}>
   <:col :let={rule} label="Rule id"><%= rule.rule_id %></:col>
   <:col :let={rule} label="Rule type"><%= rule.rule_type %></:col>
   <:col :let={rule} label="Severity"><%= rule.severity %></:col>

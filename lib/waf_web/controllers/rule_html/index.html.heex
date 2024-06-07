@@ -18,6 +18,7 @@
   <:col :let={rule} label="Disruptive action"><%= rule.disruptive_action %></:col>
   <:col :let={rule} label="Phase"><%= rule.phase %></:col>
   <:col :let={rule} label="Attack type"><%= rule.attack_type %></:col>
+  <:col :let={rule} label="File name"><%= rule.file_name %></:col>
   <:action :let={rule}>
     <div class="sr-only">
       <.link navigate={~p"/rules/#{rule}"}>Show</.link>

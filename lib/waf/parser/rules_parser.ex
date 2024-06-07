@@ -1,9 +1,9 @@
 defmodule Waf.Parser.RulesParser do
-  def parse_rules_from_file(file_path) do
-    IO.puts("Loading rules from file #{file_path}")
+  def parse_rules_from_file(file_path, file_name) do
+    IO.puts("Loading rules from file #{file_name}")
 
     File.stream!(file_path)
-    |> parse_rules(file_path)
+    |> parse_rules(file_name)
   end
 
   def parse_rules_from_string(string) do
@@ -12,7 +12,7 @@ defmodule Waf.Parser.RulesParser do
     |> parse_rules()
   end
 
-  def parse_rules(rules, file_path \\ "") do
+  def parse_rules(rules, file_name \\ "") do
 
     ########### File parsing ###########
     rules_params =
@@ -37,7 +37,7 @@ defmodule Waf.Parser.RulesParser do
         end
         )
       |> elem(0)
-      |> Stream.map(&Map.put(&1, :file_name, file_path))
+      |> Stream.map(&Map.put(&1, :file_name, file_name))
 
     ########### Split into 4 different lists for operations, rules, actions and variables ###########
     {operations, rules, actions, variables} =

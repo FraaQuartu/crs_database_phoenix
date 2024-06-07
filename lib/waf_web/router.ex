@@ -22,6 +22,8 @@ defmodule WafWeb.Router do
 
     get "/load_files", FileLoaderController, :show
     post "/load_files", FileLoaderController, :load
+
+    delete "/rules", DeleteAllController, :delete_all
   end
 
   # Other scopes may use custom stacks.

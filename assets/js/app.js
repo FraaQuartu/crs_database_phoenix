@@ -44,4 +44,7 @@ window.liveSocket = liveSocket
 
 import DataTable from 'datatables.net-dt'
 
-let table = new DataTable('#rules_table')
+let table = new DataTable('#rules_table', {
+  autoWidth: false,
+  columnDefs: [{orderable: false, targets: -1}]
+})

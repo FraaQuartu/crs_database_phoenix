@@ -20,10 +20,6 @@ defmodule Waf.Parser do
     Repo.get!(Rule, id)
   end
 
-  # def create_rule(attrs) do
-
-  # end
-
   def update_rule(%Rule{} = rule, attrs) do
     rule
     |> Rule.changeset(attrs)
@@ -34,6 +30,11 @@ defmodule Waf.Parser do
     from(
       r in Waf.Parser.Rule,
       where: r.rule_id == ^rule_id)
+    |> Waf.Repo.delete_all()
+  end
+
+  def delete_all() do
+    from(r in Waf.Parser.Rule)
     |> Waf.Repo.delete_all()
   end
 

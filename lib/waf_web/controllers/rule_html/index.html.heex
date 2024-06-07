@@ -1,11 +1,14 @@
-<.header>
+<.header class="w-[]">
   Listing Rules
   <:actions>
     <.link href={~p"/rules/new"}>
       <.button>New Rule</.button>
     </.link>
     <.link href={~p"/load_files/"}>
-      <.button>Load Rules</.button>
+      <.button>Load from files</.button>
+    </.link>
+    <.link href={~p"/rules"} method="delete" data-confirm="Are you sure to delete all rules?">
+      <.button>Delete all</.button>
     </.link>
   </:actions>
 </.header>

@@ -288,7 +288,7 @@ defmodule Waf.Parser.FileGenerator do
       |> Waf.Repo.all()
       # Remove fields
       |> Stream.map(fn rule -> Map.drop(rule, [:__meta__, :__struct__, :rule_index, :actions, :variables, :operation_id]) end)
-      |> Stream.map(fn rule -> {rule.id, Map.drop(rule, [:id])} end)
+      |> Stream.map(fn rule -> {rule.id, rule} end)
       |> Map.new()
 
     rules_ids = Map.keys(rules)

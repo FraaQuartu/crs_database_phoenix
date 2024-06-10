@@ -58,8 +58,14 @@ defmodule WafWeb.RuleController do
     rule = Parser.get_rule!(id)
     {_n, nil} = Parser.delete_rules(rule.rule_id)
 
-    conn
-    |> put_flash(:info, "Rule deleted successfully.")
-    |> redirect(to: ~p"/rules")
+    if String.starts_with?(conn.request_path, "/api") do
+      send_resp(conn, :no_content, "")
+    else
+      conn
+      |> put_flash(:info, "Rule deleted successfully.")
+      |> redirect(to: ~p"/rules")
+    end
+
+
   end
 end

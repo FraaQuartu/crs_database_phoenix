@@ -31,7 +31,7 @@ defmodule WafWeb.Router do
   scope "/api", WafWeb do
     pipe_through :api
 
-    resources "/rules", RuleController, only: [:show, :index]
+    resources "/rules", RuleController, only: [:show, :index, :delete]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

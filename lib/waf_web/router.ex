@@ -1,4 +1,5 @@
 defmodule WafWeb.Router do
+  # alias WafWeb.RuleController
   use WafWeb, :router
 
   pipeline :browser do
@@ -27,9 +28,11 @@ defmodule WafWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", WafWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", WafWeb do
+    pipe_through :api
+
+    resources "/rules", RuleController, only: [:show, :index]
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:waf, :dev_routes) do

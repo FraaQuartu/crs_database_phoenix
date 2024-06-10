@@ -29,7 +29,7 @@ defmodule WafWeb.RuleController do
     rule = Parser.get_rule!(id)
     # Qui faccio la query di tutte le regole
     conf = Parser.FileGenerator.generate_conf([rule.rule_id])
-    render(conn, :show, rule: rule, conf: conf)
+    render(conn, :show, rule: rule, conf: conf, rule_id: rule.rule_id)
   end
 
   def edit(conn, %{"id" => id}) do

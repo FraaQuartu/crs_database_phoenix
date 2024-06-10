@@ -35,7 +35,7 @@ defmodule Waf.Parser.FileGenerator do
   end
 
   def generate_conf(ids) do
-
+    # ids: rules_ids
     ########## Queries ##########
     rules = query_rules(ids)
 
@@ -272,5 +272,103 @@ defmodule Waf.Parser.FileGenerator do
     |> Map.new()
   end
 
+  def generate_json(ids) do
+    # ids: rules_ids
+
+    # Queries
+    # Rules
+    rules =
+      Ecto.Query.from(
+        r in Waf.Parser.Rule,
+        select: r,
+        preload: :operation,
+        where: r.rule_id in ^ids,
+        order_by: r.rule_index
+      )
+      |> Waf.Repo.all()
+      # Remove fields
+      |> Stream.map(fn rule -> Map.drop(rule, [:__meta__, :__struct__, :rule_index, :actions, :variables, :operation_id]) end)
+      |> Stream.map(fn rule -> {rule.id, Map.drop(rule, [:id])} end)
+      |> Map.new()
+
+    rules_ids = Map.keys(rules)
+    # Query actions
+    actions =
+      Ecto.Query.from(
+        ra in Waf.Parser.RuleAction,
+        join: a in Waf.Parser.Action,
+        on: ra.action_id == a.id,
+        select: %{
+          rule_id: ra.rule_id,
+          action: a.name,
+          arg: a.arg,
+        },
+        where: ra.rule_id in ^rules_ids,
+        order_by: [ra.rule_id, ra.level]
+      )
+      |> Waf.Repo.all()
+
+    # Add operations to rules
+    rules =
+      Enum.reduce(actions, rules,
+        fn action, rules ->
+          rule_id = action.rule_id
+          current_action = Map.drop(action, [:rule_id])
+          current_rule = rules[rule_id]
+          current_rules_actions = Map.get(current_rule, :actions, [])
+          updated_rules_actions = current_rules_actions ++ [current_action]
+          updated_rule = Map.put(current_rule, :actions, updated_rules_actions)
+          |> IO.inspect()
+          updated_rules = Map.put(rules, rule_id, updated_rule)
+          updated_rules
+        end
+      )
+
+    # Query variables
+    variables =
+      Ecto.Query.from(
+        rv in Waf.Parser.RuleVariable,
+        join: v in Waf.Parser.Variable,
+        on: rv.variable_id == v.id,
+        select: %{
+          rule_id: rv.rule_id,
+          modifier: rv.modifier,
+          collection: v.collection,
+          member: v.member,
+        },
+        where: rv.rule_id in ^rules_ids,
+        order_by: rv.rule_id
+      )
+      |> Waf.Repo.all()
+
+    # Add variables to rules
+    rules =
+      Enum.reduce(variables, rules,
+        fn variable, rules ->
+          rule_id = variable.rule_id
+          current_variable = Map.drop(variable, [:rule_id])
+          current_rule = rules[rule_id]
+          current_rules_variables = Map.get(current_rule, :variables, [])
+          updated_rules_variables = current_rules_variables ++ [current_variable]
+          updated_rule = Map.put(current_rule, :variables, updated_rules_variables)
+          |> IO.inspect()
+          updated_rules = Map.put(rules, rule_id, updated_rule)
+          updated_rules
+        end
+      )
+
+    # Delete fields from operations
+    rules
+    |> Enum.map(
+      fn {_id, rule} ->
+        current_operation = rule.operation
+        |> IO.inspect
+        updated_operation = Map.drop(current_operation, [:__meta__, :__struct__, :id, :inserted_ad, :rules, :inserted_at])
+        Map.put(rule, :operation, updated_operation)
+      end
+    )
+    #
+    # |> Jason.encode!#(pretty: true)
+  end
 
 end

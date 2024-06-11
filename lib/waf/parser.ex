@@ -8,10 +8,23 @@ defmodule Waf.Parser do
 
   alias Waf.Parser.Rule
 
-  def list_rules() do
+  def list_rules(params) do
+    IO.inspect(params, label: "Params")
+    severity = Map.get(params, "severity", "")
+    attack_type = Map.get(params, "attack_type", "")
+    phase = Map.get(params, "phase", "")
+    paranoia_level = Map.get(params, "paranoia_level", "")
+
+    {min_phase, max_phase} = if phase == "", do: {0, 5}, else: {phase, phase}
+    {min_paranoia_level, max_paranoia_level} = if paranoia_level == "", do: {0, 4}, else: {paranoia_level, paranoia_level}
+
     from(
       r in Waf.Parser.Rule,
       where: r.chain_level == ^1
+      and ilike(r.severity, ^"%#{severity}%")
+      and ilike(r.attack_type, ^"%#{attack_type}%")
+      and r.phase >= ^min_phase and r.phase <= ^max_phase
+      and r.paranoia_level >= ^min_paranoia_level and r.paranoia_level <= ^max_paranoia_level
     )
     |> Repo.all()
   end

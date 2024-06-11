@@ -4,8 +4,8 @@ defmodule WafWeb.RuleController do
   alias Waf.Parser
   alias Waf.Parser.Rule
 
-  def index(conn, _params) do
-    rules = Parser.list_rules()
+  def index(conn, params) do
+    rules = Parser.list_rules(params)
     render(conn, :index, rules: rules)
   end
 

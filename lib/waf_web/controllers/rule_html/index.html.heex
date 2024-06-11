@@ -1,4 +1,20 @@
-<.header class="w-[]">
+<form action="/rules" method="get">
+  <.header>
+    Search by filters
+    <:actions>
+      <.button>Search</.button>
+    </:actions>
+  </.header>
+  <.list>
+    <:item title="Severity"><input type="text" name="severity"></:item>
+    <:item title="Attack type"><input type="text" name="attack_type"></:item>
+    <:item title="Phase"><input type="number" name="phase"></:item>
+    <:item title="Paranoia level"><input type="number" name="paranoia_level"></:item>
+  </.list>
+</form>
+
+<br/>
+<.header>
   Listing Rules
   <:actions>
     <.link href={~p"/rules/new"}>

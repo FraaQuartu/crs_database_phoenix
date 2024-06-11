@@ -208,6 +208,7 @@ defmodule Waf.Parser.RulesParser do
       |> Map.put(:severity, "")
       |> Map.put(:phase, 0)
       |> Map.put(:paranoia_level, 0)
+      |> Map.put(:attack_type, "")
       |> Map.put(:chain_level, chain_level)
 
 
